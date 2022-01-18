@@ -21,10 +21,7 @@ sheetVagas['A1'] = "Nome"
 sheetVagas['B1'] = "Local"
 sheetVagas['C1'] = "Descrição"
 
-# Salvando o arquivo
-arquivo_excel.save('Vagas do Dia.xlsx')
-
-
+#Começando a parte de pegar os dados do site
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--lang=pt-BR')
 chrome_options.add_argument('disable-infobars')
@@ -40,11 +37,18 @@ time.sleep(10)
 vagas = driver.find_elements(By.XPATH, '//div[@class="box"]/h3')
 time.sleep(2)
 
+
+#Contador para controlar o número de linhas da planilha
+i = 0
+
 for vaga in vagas:
     print(vaga.accessible_name)
+    sheetVagas.cell(row=i+2, column=1).value = vaga.accessible_name #Insere o nome da vaga na coluna 1
+    i +=1
+        
 time.sleep(5)
 
-locais = driver.find_elements(By.XPATH,)
-
-
 driver.close()
+
+# Salvando o arquivo
+arquivo_excel.save('Vagas do Dia.xlsx')
