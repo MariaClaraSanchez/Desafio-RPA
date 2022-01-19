@@ -32,10 +32,19 @@ driver = webdriver.Chrome(options=chrome_options)
 driver.get('https://cadmus.com.br/vagas-tecnologia/')  # inicia o navegador
 driver.maximize_window()  # maximiza o navegador
 
+
 time.sleep(10)
 # busca os titulos das vagas
-vagas = driver.find_elements(By.XPATH, '//div[@class="box"]/h3')
+vagas = driver.find_elements(By.XPATH, '//div[@class="box"]')
 time.sleep(2)
+
+for vaga in vagas:
+    titulo_el = vaga.find_element(By.TAG_NAME,"h3")
+    local_el = vaga.find_element(By.XPATH,'//p[@class="local"]')
+    titulo = titulo_el.accessible_name
+    local = local_el.get_attribute('innerHTML').replace('<i class="fas fa-map-marker-alt"></i>', '')
+    print(f'{titulo} {local}')
+time.sleep(5)
 
 
 #Contador para controlar o número de linhas da planilha
