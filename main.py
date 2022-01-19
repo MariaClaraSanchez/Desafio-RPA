@@ -1,25 +1,26 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import time
 from openpyxl import Workbook
 from datetime import date
 
 # Cria uma pasta de trabalho para conter a planilha
-arquivo_excel = Workbook()
+# arquivo_excel = Workbook()
 
-# Ativa a guia que já vem por padrão no Workbook
-sheetVagas = arquivo_excel.active
+# # Ativa a guia que já vem por padrão no Workbook
+# sheetVagas = arquivo_excel.active
 
-# Pega a data de hoje para nomear a guia da planilha
-today = date.today()
+# # Pega a data de hoje para nomear a guia da planilha
+# today = date.today()
 
-# Renomenado o título da guia para a data de hoje
-sheetVagas.title = format(today)
+# # Renomenado o título da guia para a data de hoje
+# sheetVagas.title = format(today)
 
-# Escrevendo no arquivo o Nome/Local e Descrição da vaga
-sheetVagas['A1'] = "Nome"
-sheetVagas['B1'] = "Local"
-sheetVagas['C1'] = "Descrição"
+# # Escrevendo no arquivo o Nome/Local e Descrição da vaga
+# sheetVagas['A1'] = "Nome"
+# sheetVagas['B1'] = "Local"
+# sheetVagas['C1'] = "Descrição"
 
 # Começando a parte de pegar os dados do site
 chrome_options = webdriver.ChromeOptions()
@@ -45,15 +46,17 @@ time.sleep(2)
 dados_vagas = []
 
 # coleta as vagas e os locais das vagas
+driver.execute_script("window.scrollTo(0,1000);")
+time.sleep(2)
 for vaga in vagas:
 
-    titulo_el = vaga.find_element(By.TAG_NAME, "h3")
-    local_el = vaga.find_element(By.XPATH, '//p[@class="local"]')
+    titulo_el = vaga.find_element(By.TAG_NAME, 'h3')
+    local_el = vaga.find_element(By.CLASS_NAME, 'local')
     titulo = titulo_el.accessible_name
-    local = local_el.get_attribute('innerHTML').replace(
-        '<i class="fas fa-map-marker-alt"></i>', '')
+    local = local_el.text
     print(f'Vaga: {titulo}')
     print(f'Local: {local}')
+
     dados_vagas.append({titulo: {
         'local': local,
         'descricao': None
@@ -61,21 +64,26 @@ for vaga in vagas:
 
 time.sleep(5)
 
-print(dados_vagas[1])
+# for dado in dados_vagas:
+link = vaga.find_element(By.XPATH, '//p/a')
+link.send_keys(Keys.RETURN)
+descricao = driver.find_element(By.XPATH, '//div[@class="box z-depth-1"]/p')
+dados_vagas[0]['Analista de Sistemas Sênior']['descricao'] = descricao.text
+driver.back()
+print(dados_vagas[0])
 
 
 # Contador para controlar o número de linhas da planilha
-i = 0
+# i = 0
 
-for vaga in vagas:
-    print(vaga.accessible_name)
-    # Insere o nome da vaga na coluna 1
-    sheetVagas.cell(row=i+2, column=1).value = vaga.accessible_name
-    i += 1
+# for vaga in vagas:
+#     print(vaga.accessible_name)
+#     # Insere o nome da vaga na coluna 1
+#     sheetVagas.cell(row=i+2, column=1).value = vaga.accessible_name
+#     i += 1
 
-time.sleep(5)
-
+# time.sleep(5)
 driver.close()
 
-# Salvando o arquivo
-arquivo_excel.save('Vagas do Dia.xlsx')
+# # Salvando o arquivo
+# arquivo_excel.save('Vagas do Dia.xlsx')
