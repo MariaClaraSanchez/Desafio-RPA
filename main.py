@@ -33,7 +33,7 @@ driver = webdriver.Chrome(
 driver.get('https://cadmus.com.br/vagas-tecnologia/%27')
 
 
-time.sleep(10)
+time.sleep(5)
 
 # busca todas as vagas
 
@@ -43,6 +43,9 @@ time.sleep(2)
 
 # descrição
 dados_vagas = []
+
+# Contador para controlar o número de linhas da planilha
+i=0
 
 # coleta as vagas e os locais das vagas
 for vaga in vagas:
@@ -54,24 +57,23 @@ for vaga in vagas:
         '<i class="fas fa-map-marker-alt"></i>', '')
     print(f'Vaga: {titulo}')
     print(f'Local: {local}')
+
+    #Titulo é chave
     dados_vagas.append({titulo: {
         'local': local,
         'descricao': None
     }})
 
+    #Inserindo título e local da linha 2 em diante e coluna A1 e B1 respectivamente
+    sheetVagas.cell(row=i+2, column=1).value = titulo
+    sheetVagas.cell(row=i+2, column=2).value = local
+    i += 1
+
 time.sleep(5)
 
-print(dados_vagas[1])
-
-
-# Contador para controlar o número de linhas da planilha
-i = 0
-
-for vaga in vagas:
-    print(vaga.accessible_name)
-    # Insere o nome da vaga na coluna 1
-    sheetVagas.cell(row=i+2, column=1).value = vaga.accessible_name
-    i += 1
+#Fazer esse jeito para inserir a descrição na planilha
+# textTest = dados_vagas[0]['Analista de Sistemas Sênior']['descricao'] = "Teste"
+# sheetVagas.cell(row=2, column=3).value = textTest
 
 time.sleep(5)
 
