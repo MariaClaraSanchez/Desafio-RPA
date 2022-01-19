@@ -31,7 +31,7 @@ driver = webdriver.Chrome(
     options=chrome_options)
 
 # inicia o navegador no site da cadmus
-driver.get('https://cadmus.com.br/vagas-tecnologia/%27')
+driver.get('https://cadmus.com.br/vagas-tecnologia/')
 
 
 time.sleep(5)
@@ -55,7 +55,7 @@ for vaga in vagas:
 
     titulo_el = vaga.find_element(By.TAG_NAME, 'h3')
     local_el = vaga.find_element(By.CLASS_NAME, 'local')
-    titulo = titulo_el.accessible_name
+    titulo = titulo_el.text
     local = local_el.text
     print(f'Vaga: {titulo}')
     print(f'Local: {local}')
@@ -75,17 +75,21 @@ for vaga in vagas:
 time.sleep(5)
 
 
-# for dado in dados_vagas:
-link = vaga.find_element(By.XPATH, '//p/a')
-link.send_keys(Keys.RETURN)
-descricao = driver.find_element(By.XPATH, '//div[@class="box z-depth-1"]/p')
-dados_vagas[0]['Analista de Sistemas Sênior']['descricao'] = descricao.text
-driver.back()
-print(dados_vagas[0])
-
+for vaga in dados_vagas:
+    driver.execute_script("window.scrollTo(0,1000);")
+    time.sleep(1)
+    btn_descricao = '//div[@class="box"]/h3[contains(text(), "{}")]/../p/a'.format(
+        list(vaga.keys())[0])
+    link = driver.find_element(
+        By.XPATH, btn_descricao)
+    link.send_keys(Keys.RETURN)
+    descricao = driver.find_element(
+        By.XPATH, '//div[@class="box z-depth-1"]/p')
+    print(descricao.text)
+    driver.back()
 
 # Contador para controlar o número de linhas da planilha
-# i = 0
+i = 0
 
 # for vaga in vagas:
 #     print(vaga.accessible_name)
@@ -93,13 +97,13 @@ print(dados_vagas[0])
 #     sheetVagas.cell(row=i+2, column=1).value = vaga.accessible_name
 #     i += 1
 
-# Fazer esse jeito para inserir a descrição na planilha
+# # Fazer esse jeito para inserir a descrição na planilha
 # textTest = dados_vagas[0]['Analista de Sistemas Sênior']['descricao'] = "Teste"
 # sheetVagas.cell(row=2, column=3).value = textTest
 
-time.sleep(5)
+# time.sleep(5)
 
-
+print(dados_vagas)
 # time.sleep(5)
 driver.close()
 
