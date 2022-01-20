@@ -3,7 +3,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 from openpyxl import Workbook
+from openpyxl.styles import Font,Alignment
 from datetime import date
+import re
 
 # Cria uma pasta de trabalho para conter a planilha
 arquivo_excel = Workbook()
@@ -22,7 +24,23 @@ sheetVagas['A1'] = "Nome"
 sheetVagas['B1'] = "Local"
 sheetVagas['C1'] = "Descrição"
 
-# Começando a parte de pegar os dados do site
+sheetVagas['A1'].font = Font(bold=True) #Fonte em Negrito
+sheetVagas['B1'].font = Font(bold=True) #Fonte em Negrito
+sheetVagas['C1'].font = Font(bold=True) #Fonte em Negrito
+
+sheetVagas.column_dimensions['A'].width = 50 #Dimensão da coluna A
+
+sheetVagas.column_dimensions['B'].width = 20 #Dimensão da coluna B
+
+sheetVagas.column_dimensions['C'].width = 70 #Dimensão da coluna C
+
+#sheetVagas.row_dimensions[1].height = 100
+
+#sheetVagas['C2'] = " O que você terá que fazer: Profissional irá atuar na área de Suporte Técnico à Usuário N2, manutenção preventiva e corretiva de notebooks e periféricos. Realizará a instalação e configuração de aplicativo, verificação hardware e instalação de sistema operacional. Análises de equipamentos de troca ou desligamento, substituição de processadores, fontes, hd, memórias. Controle de ativos que entram e saem do estoque. • Área e especialização profissional: Informática, TI, Telecomunicações - TI, Logistica, Administração • Nível hierárquico: Estagiário • Local de trabalho: São Judas - SP"
+
+#sheetVagas.alignment = Alignment(wrap_text=True)
+
+ # Começando a parte de pegar os dados do site
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--lang=pt-BR')
 chrome_options.add_argument('disable-infobars')
@@ -75,7 +93,6 @@ for vaga in vagas:
 time.sleep(5)
 i = 0
 
-import re
 
 for vaga in dados_vagas:
     driver.execute_script("window.scrollTo(0,1000);")
@@ -98,24 +115,11 @@ for vaga in dados_vagas:
     i += 1
     driver.back()
 
-# Contador para controlar o número de linhas da planilha
-i = 0
 
-# for vaga in vagas:
-#     print(vaga.accessible_name)
-#     # Insere o nome da vaga na coluna 1
-#     sheetVagas.cell(row=i+2, column=1).value = vaga.accessible_name
-#     i += 1
+#print(dados_vagas)
 
-# # Fazer esse jeito para inserir a descrição na planilha
-# textTest = dados_vagas[0]['Analista de Sistemas Sênior']['descricao'] = "Teste"
-# sheetVagas.cell(row=2, column=3).value = textTest
-
-# time.sleep(5)
-
-print(dados_vagas)
-# time.sleep(5)
 driver.close()
 
-# # Salvando o arquivo
+#  Salvando o arquivo
+
 arquivo_excel.save('Vagas do Dia.xlsx')
