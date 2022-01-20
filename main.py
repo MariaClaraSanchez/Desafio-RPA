@@ -89,7 +89,7 @@ for vaga in dados_vagas:
         By.XPATH, '//div[@class="box z-depth-1"]/p')
     print(descricao.text)
     
-    # Retirar o '\n'
+    # Retirar o '\n' do texto
     new = re.sub('\n',' ',descricao.text)
 
     print(new)
