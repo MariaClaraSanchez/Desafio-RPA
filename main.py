@@ -24,15 +24,20 @@ sheetVagas['A1'] = "Nome"
 sheetVagas['B1'] = "Local"
 sheetVagas['C1'] = "Descrição"
 
-sheetVagas['A1'].font = Font(bold=True) #Fonte em Negrito
-sheetVagas['B1'].font = Font(bold=True) #Fonte em Negrito
-sheetVagas['C1'].font = Font(bold=True) #Fonte em Negrito
+sheetVagas['A1'].font = Font(size = 18, bold=True) #Fonte em Negrito
+sheetVagas['B1'].font = Font(size = 18,bold=True) #Fonte em Negrito
+sheetVagas['C1'].font = Font(size = 18,bold=True) #Fonte em Negrito
+
+sheetVagas['A1'].alignment = Alignment(horizontal='center', vertical='center')
+sheetVagas['B1'].alignment = Alignment(horizontal='center', vertical='center')
+sheetVagas['C1'].alignment = Alignment(horizontal='center', vertical='center')
 
 sheetVagas.column_dimensions['A'].width = 50 #Dimensão da coluna A
 
 sheetVagas.column_dimensions['B'].width = 20 #Dimensão da coluna B
 
 sheetVagas.column_dimensions['C'].width = 70 #Dimensão da coluna C
+
 
 #sheetVagas.row_dimensions[1].height = 100
 
@@ -75,7 +80,7 @@ for vaga in vagas:
     local_el = vaga.find_element(By.CLASS_NAME, 'local')
     titulo = titulo_el.text
     local = local_el.text
-    print(f'Vaga: {titulo}')
+    #print(f'Vaga: {titulo}')
     print(f'Local: {local}')
 
     # Titulo é chave
@@ -104,22 +109,24 @@ for vaga in dados_vagas:
     link.send_keys(Keys.RETURN)
     descricao = driver.find_element(
         By.XPATH, '//div[@class="box z-depth-1"]/p')
-    print(descricao.text)
+   #print(descricao.text)
     
     # Retirar o '\n' do texto
     new = re.sub('\n',' ',descricao.text)
 
-    print(new)
-
+    #print(new)
+    sheetVagas[f'A{i+2}'].alignment = Alignment(vertical='center')
+    sheetVagas[f'B{i+2}'].alignment = Alignment(vertical='center')
+    sheetVagas[f'C{i+2}'].alignment = Alignment(wrap_text=True)
     sheetVagas.cell(row=i+2, column=3).value = new
     i += 1
     driver.back()
 
-
+sheetVagas[f'C{i}'].alignment = Alignment(wrap_text=True)
 #print(dados_vagas)
 
 driver.close()
 
-#  Salvando o arquivo
+#  Salvando o arquivo 
 
-arquivo_excel.save('Vagas do Dia.xlsx')
+arquivo_excel.save('Vagas.xlsx')
