@@ -1,14 +1,18 @@
+from pydoc import describe
 from subprocess import list2cmdline
 from controllers.site_vagas_cadmus import SiteCadmus
 
-def start() :
+
+def start():
     site_cadmus = SiteCadmus()
     site_cadmus.acessar_vagas()
 
-    list = site_cadmus.pegar_vagas()
-    list2 = site_cadmus.pegar_descricao_vagas(list)
-    
-    print(list2)
+    vagas = site_cadmus.pegar_vagas()
+    print(vagas)
+    locais = site_cadmus.pegar_locais()
+    print(locais)
+    descricao = site_cadmus.pegar_descricao_vagas(vagas)
+    print(descricao)
 
 
 if __name__ == '__main__':
