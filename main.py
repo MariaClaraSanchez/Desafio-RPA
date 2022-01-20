@@ -3,9 +3,15 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 from openpyxl import Workbook
-from openpyxl.styles import Font,Alignment
+from openpyxl.styles import Font, Alignment
 from datetime import date
 import re
+from fileinput import filename
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 
 # Cria uma pasta de trabalho para conter a planilha
 arquivo_excel = Workbook()
@@ -32,11 +38,11 @@ sheetVagas['A1'].alignment = Alignment(horizontal='center', vertical='center')
 sheetVagas['B1'].alignment = Alignment(horizontal='center', vertical='center')
 sheetVagas['C1'].alignment = Alignment(horizontal='center', vertical='center')
 
-sheetVagas.column_dimensions['A'].width = 50 #Dimensão da coluna A
+sheetVagas.column_dimensions['A'].width = 50  # Dimensão da coluna A
 
-sheetVagas.column_dimensions['B'].width = 20 #Dimensão da coluna B
+sheetVagas.column_dimensions['B'].width = 20  # Dimensão da coluna B
 
-sheetVagas.column_dimensions['C'].width = 70 #Dimensão da coluna C
+sheetVagas.column_dimensions['C'].width = 70  # Dimensão da coluna C
 
 
 #sheetVagas.row_dimensions[1].height = 100
@@ -45,7 +51,7 @@ sheetVagas.column_dimensions['C'].width = 70 #Dimensão da coluna C
 
 #sheetVagas.alignment = Alignment(wrap_text=True)
 
- # Começando a parte de pegar os dados do site
+# Começando a parte de pegar os dados do site
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--lang=pt-BR')
 chrome_options.add_argument('disable-infobars')
@@ -109,18 +115,18 @@ for vaga in dados_vagas:
     link.send_keys(Keys.RETURN)
     descricao = driver.find_element(
         By.XPATH, '//div[@class="box z-depth-1"]/p')
-   #print(descricao.text)
-    
+
     # Retirar o '\n' do texto
-    new = re.sub('\n',' ',descricao.text)
+    newText = re.sub('\n', ' ', descricao.text)
 
     #print(new)
     sheetVagas[f'A{i+2}'].alignment = Alignment(vertical='center')
     sheetVagas[f'B{i+2}'].alignment = Alignment(vertical='center')
     sheetVagas[f'C{i+2}'].alignment = Alignment(wrap_text=True)
-    sheetVagas.cell(row=i+2, column=3).value = new
+    sheetVagas.cell(row=i+2, column=3).value = newText
     i += 1
     driver.back()
+
 
 sheetVagas[f'C{i}'].alignment = Alignment(wrap_text=True)
 #print(dados_vagas)
@@ -129,4 +135,44 @@ driver.close()
 
 #  Salvando o arquivo 
 
-arquivo_excel.save('Vagas.xlsx')
+arquivo_excel.save('vagas.xlsx')
+
+# Rementente
+fromaddr = 'robovagas@gmail.com'
+# Destinatários
+toaddr = 'bruno.cabral@cadmus.com.br'
+
+msg = MIMEMultipart()
+msg['From'] = fromaddr
+msg['To'] = toaddr
+
+# Assunto do email
+msg['Subject'] = "E-mail de test"
+# Corpo do emial
+body = "Email enviado do nosso robô"
+
+msg.attach(MIMEText(body, 'plain'))
+
+# Arquivo a ser anexado
+filename = "vagas.xlsx"
+anexo = open("vagas.xlsx", "rb")
+
+p = MIMEBase('aplication', 'octet-stream')
+p.set_payload((anexo).read())
+encoders.encode_base64(p)
+p.add_header("Content-Disposition", "attachment; filename= %s" % filename)
+msg.attach(p)
+
+s = smtplib.SMTP('smtp.gmail.com', 587)
+
+# Segurança
+s.starttls()
+
+s.login(fromaddr, '123Batatinha')
+
+# Converte para String
+text = msg.as_string()
+
+s.sendmail(fromaddr, toaddr, text)
+
+s.quit()
