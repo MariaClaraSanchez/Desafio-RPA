@@ -73,7 +73,9 @@ for vaga in vagas:
     i += 1
 
 time.sleep(5)
+i = 0
 
+import re
 
 for vaga in dados_vagas:
     driver.execute_script("window.scrollTo(0,1000);")
@@ -86,6 +88,14 @@ for vaga in dados_vagas:
     descricao = driver.find_element(
         By.XPATH, '//div[@class="box z-depth-1"]/p')
     print(descricao.text)
+    
+    # Retirar o '\n'
+    new = re.sub('\n',' ',descricao.text)
+
+    print(new)
+
+    sheetVagas.cell(row=i+2, column=3).value = new
+    i += 1
     driver.back()
 
 # Contador para controlar o número de linhas da planilha
