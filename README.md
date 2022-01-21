@@ -24,6 +24,7 @@ pip install -r requirements.txt
 ```
 ### Máquina Virtual
 Caso queira executar o projeto separadamente da onde fica seus documentos python é preciso cria uma máquina virtual e para isso precisa da os seguintes passos :
+<br>
 1º Instalar o env em sua máquina para isso utilize o comando :
 ```
 pip install venv
