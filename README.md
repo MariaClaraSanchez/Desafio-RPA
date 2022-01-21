@@ -33,6 +33,7 @@ pip install venv
 ```
 python3 -m venv nome_maquina_virtual-env
 ```
+3º Escolha o comando de acordo com seu sistema opercional:
 #### Para Windows:
 ```
 nome_maquina_virtual-env\Scripts\activate.bat
