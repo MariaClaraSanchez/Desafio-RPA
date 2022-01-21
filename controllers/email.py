@@ -6,11 +6,13 @@ import smtplib
 
 
 class Email:
-    def __init__(self, destinatario: str) -> None:
+    def __init__(self, destinatario: str,remetente:str,senha:str) -> None:
         # Rementente
-        self.fromaddr = 'robovagas@gmail.com'
+        self.fromaddr = remetente
         # Destinatários
         self.toaddr = destinatario
+        # Senha
+        self.password = senha
 
     def enviar_email(self):
         msg = MIMEMultipart()
@@ -40,7 +42,7 @@ class Email:
         # Segurança
         s.starttls()
 
-        s.login(self.fromaddr, '123Batatinha')
+        s.login(self.fromaddr, self.password)
 
         # Converte para String
         text = msg.as_string()

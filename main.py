@@ -2,6 +2,10 @@ from controllers.site_vagas_cadmus import SiteCadmus
 from controllers.relatorio_vagas import Planilha
 from controllers.email import Email
 
+REMETENTE = 'robovagas@gmail.com'
+DISTINATARIO = 'bruno.cabral@cadmus.com.br'
+SENHA = '123Batatinha'
+
 def start():
     site_cadmus = SiteCadmus()
     site_cadmus.acessar_vagas()
@@ -12,7 +16,7 @@ def start():
     planilha.formatar_planilha()
     planilha.escreve_dados(vagas)
 
-    Email.enviar_email()
-    
+    Email.enviar_email(DISTINATARIO,REMETENTE,SENHA)
+
 if __name__ == '__main__':
     start()
