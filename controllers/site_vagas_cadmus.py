@@ -55,8 +55,6 @@ class SiteCadmus:
             descricao = self.driver.find_element(
                 By.XPATH, '//div[@class="box z-depth-1"]/p')
 
-            # descricao2 = re.sub('\n', ' ', descricao.text)
-
             dados_vagas[vaga]['descricao'] = descricao.text
             self.driver.back()
 
