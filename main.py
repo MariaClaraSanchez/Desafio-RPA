@@ -2,7 +2,7 @@ from pydoc import describe
 from subprocess import list2cmdline
 from controllers.site_vagas_cadmus import SiteCadmus
 from controllers.relatorio_vagas import Planilha
-from controllers.enviaemail import Email
+from controllers.email import Email
 
 
 def start():
