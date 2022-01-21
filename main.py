@@ -12,6 +12,7 @@ def start():
     planilha.formatar_planilha()
     planilha.escreve_dados(vagas)
 
-
+    Email.enviar_email()
+    
 if __name__ == '__main__':
     start()
