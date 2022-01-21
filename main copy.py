@@ -30,9 +30,9 @@ sheetVagas['A1'] = "Nome"
 sheetVagas['B1'] = "Local"
 sheetVagas['C1'] = "Descrição"
 
-sheetVagas['A1'].font = Font(size = 18, bold=True) #Fonte em Negrito
-sheetVagas['B1'].font = Font(size = 18,bold=True) #Fonte em Negrito
-sheetVagas['C1'].font = Font(size = 18,bold=True) #Fonte em Negrito
+sheetVagas['A1'].font = Font(size=18, bold=True)  # Fonte em Negrito
+sheetVagas['B1'].font = Font(size=18, bold=True)  # Fonte em Negrito
+sheetVagas['C1'].font = Font(size=18, bold=True)  # Fonte em Negrito
 
 sheetVagas['A1'].alignment = Alignment(horizontal='center', vertical='center')
 sheetVagas['B1'].alignment = Alignment(horizontal='center', vertical='center')
@@ -72,7 +72,7 @@ time.sleep(2)
 
 
 # descrição
-dados_vagas = []
+dados_vagas = {}
 
 # Contador para controlar o número de linhas da planilha
 i = 0
@@ -92,7 +92,7 @@ for vaga in vagas:
 
     # Titulo é chave
 
-    dados_vagas.append({titulo: {
+    dados_vagas.update({titulo: {
         'local': local,
         'descricao': None
     }})
@@ -120,7 +120,7 @@ for vaga in dados_vagas:
     # Retirar o '\n' do texto
     newText = re.sub('\n', ' ', descricao.text)
 
-    #print(new)
+    # print(new)
     sheetVagas[f'A{i+2}'].alignment = Alignment(vertical='center')
     sheetVagas[f'B{i+2}'].alignment = Alignment(vertical='center')
     sheetVagas[f'C{i+2}'].alignment = Alignment(wrap_text=True)
@@ -130,11 +130,11 @@ for vaga in dados_vagas:
 
 
 sheetVagas[f'C{i}'].alignment = Alignment(wrap_text=True)
-#print(dados_vagas)
+# print(dados_vagas)
 
 driver.close()
 
-#  Salvando o arquivo 
+#  Salvando o arquivo
 
 arquivo_excel.save('vagas.xlsx')
 

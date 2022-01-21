@@ -13,51 +13,38 @@ class SiteCadmus:
         chrome_options.add_argument('disable-infobars')
         chrome_options.add_argument('--log-level=3')
 
-        self.driver = webdriver.Chrome('/home/renatxinha/Área de Trabalho/Cadmus/RPAProj/Desafio-RPA/chromedriver', options=chrome_options)
+        self.driver = webdriver.Chrome(
+            options=chrome_options)
 
     def acessar_vagas(self) -> None:
         self.driver.get('https://cadmus.com.br/vagas-tecnologia/')
         time.sleep(5)
 
-    def pegar_vagas(self) -> list:
+    def pegar_vagas(self) -> dict:
         vagas = self.driver.find_elements(By.XPATH, '//div[@class="box"]')
         time.sleep(2)
 
         self.driver.execute_script("window.scrollTo(0,1000);")
         time.sleep(2)
 
-        lista_vagas = []
+        dados_vagas = {}
 
         for vaga in vagas:
 
             titulo_el = vaga.find_element(By.TAG_NAME, 'h3')
-            titulo = titulo_el.text
-
-            lista_vagas.append(titulo)
-
-        return lista_vagas
-
-    def pegar_locais(self) -> list:
-        vagas = self.driver.find_elements(By.XPATH, '//div[@class="box"]')
-        time.sleep(2)
-
-        self.driver.execute_script("window.scrollTo(0,1000);")
-        time.sleep(2)
-
-        lista_locais = []
-
-        for vaga in vagas:
-
             local_el = vaga.find_element(By.CLASS_NAME, 'local')
+            titulo = titulo_el.text
             local = local_el.text
 
-            lista_locais.append(local)
+            dados_vagas.update({titulo: {
+                'local': local,
+                'descricao': None
+            }})
 
-        return lista_locais
+        return dados_vagas
 
-    def pegar_descricao_vagas(self, lista_vagas: list) -> list:
-        lista_descricao = []
-        for vaga in lista_vagas:
+    def pegar_descricao_vagas(self, dados_vagas: dict) -> dict:
+        for vaga in dados_vagas:
             self.driver.execute_script("window.scrollTo(0,1000);")
             time.sleep(1)
             btn_descricao = '//div[@class="box"]/h3[contains(text(), "{}")]/../p/a'.format(
@@ -68,11 +55,9 @@ class SiteCadmus:
             descricao = self.driver.find_element(
                 By.XPATH, '//div[@class="box z-depth-1"]/p')
 
-            descricao2 = re.sub('\n', ' ', descricao.text)
+            # descricao2 = re.sub('\n', ' ', descricao.text)
 
-            lista_descricao.append(
-                descricao2
-            )
+            dados_vagas[vaga]['descricao'] = descricao.text
             self.driver.back()
 
-        return lista_descricao
+        return dados_vagas
