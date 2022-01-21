@@ -13,7 +13,7 @@ class SiteCadmus:
         chrome_options.add_argument('disable-infobars')
         chrome_options.add_argument('--log-level=3')
 
-        self.driver = webdriver.Chrome(options=chrome_options)
+        self.driver = webdriver.Chrome('/home/renatxinha/Área de Trabalho/Cadmus/RPAProj/Desafio-RPA/chromedriver', options=chrome_options)
 
     def acessar_vagas(self) -> None:
         self.driver.get('https://cadmus.com.br/vagas-tecnologia/')
@@ -70,7 +70,6 @@ class SiteCadmus:
 
             descricao2 = re.sub('\n', ' ', descricao.text)
 
-            print(descricao2)
             lista_descricao.append(
                 descricao2
             )
