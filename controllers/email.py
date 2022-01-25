@@ -6,7 +6,7 @@ import smtplib
 
 
 class Email:
-    def __init__(self, destinatario: str,remetente:str,senha:str) -> None:
+    def __init__(self, destinatario: str, remetente: str, senha: str) -> None:
         # Rementente
         self.fromaddr = remetente
         # Destinatários
