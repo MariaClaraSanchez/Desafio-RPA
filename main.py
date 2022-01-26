@@ -1,16 +1,14 @@
 from controllers.site_vagas_cadmus import SiteCadmus
 from controllers.relatorio_vagas import Planilha
 from controllers.email import Email
-from controllers.schedule import Schedule
-
-
-REMETENTE = 'robovagas@gmail.com'
-DESTINATARIO = 'bruno.cabral@cadmus.com.br'
-SENHA = '123Batatinha'
+from controllers.config import Config
+import time
+import schedule
 
 
 def start():
-
+    config = Config.get_config()
+    print(config)
     site_cadmus = SiteCadmus()
     site_cadmus.acessar_vagas()
     vagas = site_cadmus.pegar_vagas()
@@ -20,9 +18,15 @@ def start():
     planilha.formatar_planilha()
     planilha.escreve_dados(vagas)
 
-    email = Email(DESTINATARIO, REMETENTE,  SENHA)
+    email = Email(config['email']['destinatario'],
+                  config['email']['remetente'], config['email']['senha'])
     email.enviar_email()
 
 
 if __name__ == '__main__':
-    Schedule(start)
+    start()
+    schedule.every().day.at("14:19").do(start)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)

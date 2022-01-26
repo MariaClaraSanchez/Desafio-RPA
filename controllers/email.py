@@ -7,20 +7,20 @@ import smtplib
 
 class Email:
     def __init__(self, destinatario: str, remetente: str, senha: str) -> None:
-        """[Instancia a classe com as configurações iniciais para enviar email]
+        """Instancia a classe com as configurações iniciais para enviar email
         Args:
-            destinatario (str): [email do destinatario]
-            remetente (str): [email do remetente]
-            senha (str): [senha do email do remetente]
+            destinatario (str): email do destinatario
+            remetente (str): email do remetente
+            senha (str): senha do email do remetente
         """
         self.fromaddr = remetente
         self.toaddr = destinatario
         self.password = senha
 
     def enviar_email(self):
-        """[Função responsável por enviar o email.
+        """Função responsável por enviar o email.
         Ela pega o arquivo criado do excel e anexa no email, 
-        e envia o email.]
+        e envia o email.
         """
         msg = MIMEMultipart()
         msg['From'] = self.fromaddr
