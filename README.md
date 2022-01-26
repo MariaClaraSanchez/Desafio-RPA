@@ -17,12 +17,7 @@ Essa solução foi desenvolvida utilizando puramente a linguagem de programaçã
 
 # Configuração
 
-## Instalando Dependências
-Use o gerenciado de pacote [pip](https://pip.pypa.io/en/stable/) para instalar as dependências.
-```bash
-pip install -r requirements.txt
-```
-### Máquina Virtual
+## Máquina Virtual
 Caso queira executar o projeto separadamente da onde fica seus documentos python é preciso cria uma máquina virtual e para isso precisa da os seguintes passos :
 <br>
 1º Instalar o env em sua máquina para isso utilize o comando :
@@ -42,6 +37,28 @@ nome_maquina_virtual-env\Scripts\activate.bat
 ```
 source nome_maquina_virtual-env/bin/activate
 ```
+
+## Instalando Dependências
+Use o gerenciado de pacote [pip](https://pip.pypa.io/en/stable/) para instalar as dependências.
+```bash
+pip install -r requirements.txt
+```
+
+## Arquivo de Configuração
+Para executar o projeto é necessário criar um arquivo `config.yaml` na raiz do projeto. Segue exemplo de estrutura do arquivo:
+
+```yaml
+
+email:
+  remetente: '' # endereço do remetente
+  senha: '' # senha do remetente
+  destinatario: '' # endereço do destinatario
+
+site:
+  driver: '' # caminho do driver (chromedriver.exe)
+
+```
+
 # Inicializando
 
 Para executar o robô basta executar o comando :
