@@ -4,6 +4,11 @@ import yaml
 class Config:
     @staticmethod
     def get_config() -> dict:
-        with open("jaguara.yaml", "r") as yamlfile:
+        """Lê arquivo de configuração
+
+        Returns:
+            dict: dicionario com as configurações
+        """
+        with open("config.yaml", "r") as yamlfile:
             data = yaml.load(yamlfile, Loader=yaml.FullLoader)
             return data

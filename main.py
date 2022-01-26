@@ -8,8 +8,7 @@ import schedule
 
 def start():
     config = Config.get_config()
-    print(config)
-    site_cadmus = SiteCadmus()
+    site_cadmus = SiteCadmus(config['site']['driver'])
     site_cadmus.acessar_vagas()
     vagas = site_cadmus.pegar_vagas()
 

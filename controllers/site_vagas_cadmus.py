@@ -5,16 +5,19 @@ import time
 
 
 class SiteCadmus:
-    def __init__(self) -> None:
+    def __init__(self, caminho_driver: str) -> None:
         """Instancia a classe com as configurações iniciais
+
+        Args: 
+            caminho_driver (str): caminho do executavel do chromedriver 
         """
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--lang=pt-BR')
         chrome_options.add_argument('disable-infobars')
         chrome_options.add_argument('--log-level=3')
 
-        self.driver = webdriver.Chrome(
-            options=chrome_options)
+        self.driver = webdriver.Chrome(caminho_driver,
+                                       options=chrome_options)
 
     def acessar_vagas(self) -> None:
         """Acessa página de vagas da cadmus
