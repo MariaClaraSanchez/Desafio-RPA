@@ -5,28 +5,30 @@ import re
 
 class Planilha:
     def __init__(self) -> None:
-        # Cria uma pasta de trabalho para conter a planilha
+        """[Instancia a classe com as configurações iniciais,
+        para criação e ativação do arquivo excel.]
+        """
         self.arquivo_excel = Workbook()
-        # # Ativa a guia que já vem por padrão no Workbook
         self.sheetVagas = self.arquivo_excel.active
        
 
     def formatar_planilha(self) -> None:
-
-        # Renomenado o título da guia para a data de hoje
+        """[Função responsável pela formatação da planilha,
+            ela coloca a guia com a data atual e renomeia as colunas para 
+            receber os novos parâmetros, e coloca quebra de linha.]
+        """
         self.sheetVagas.title = format(date.today())
 
-        # # Escrevendo no arquivo o Nome/Local e Descrição da vaga
         self.sheetVagas['A1'] = "Nome"
         self.sheetVagas['B1'] = "Local"
         self.sheetVagas['C1'] = "Descrição"
 
         self.sheetVagas['A1'].font = Font(
-            size=18, bold=True)  # Fonte em Negrito
+            size=18, bold=True) 
         self.sheetVagas['B1'].font = Font(
-            size=18, bold=True)  # Fonte em Negrito
+            size=18, bold=True) 
         self.sheetVagas['C1'].font = Font(
-            size=18, bold=True)  # Fonte em Negrito
+            size=18, bold=True) 
 
         self.sheetVagas['A1'].alignment = Alignment(
             horizontal='center', vertical='center')
@@ -35,18 +37,16 @@ class Planilha:
         self.sheetVagas['C1'].alignment = Alignment(
             horizontal='center', vertical='center')
 
-        # Dimensão da coluna A
         self.sheetVagas.column_dimensions['A'].width = 50
-
-        # Dimensão da coluna B
         self.sheetVagas.column_dimensions['B'].width = 20
-
-        # Dimensão da coluna C
         self.sheetVagas.column_dimensions['C'].width = 70
-
         self.arquivo_excel.save('vagas.xlsx')
 
     def escreve_dados(self,dados_vagas: dict) -> None:
+        """[Função resonsável por inserir os dados na planilha.]
+        Args:
+            dados_vagas (dict): [recebe um dicionário]
+        """
         i = 0
         for vaga in  dados_vagas:
             self.sheetVagas.cell(row=i+2, column=1).value = vaga

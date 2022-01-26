@@ -6,7 +6,6 @@ REMETENTE = 'robovagas@gmail.com'
 DESTINATARIO = 'bruno.cabral@cadmus.com.br'
 SENHA = '123Batatinha'
 
-
 def start():
     site_cadmus = SiteCadmus()
     site_cadmus.acessar_vagas()
@@ -19,7 +18,6 @@ def start():
 
     email = Email(DESTINATARIO, REMETENTE,  SENHA)
     email.enviar_email()
-
 
 if __name__ == '__main__':
     start()

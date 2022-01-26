@@ -6,6 +6,8 @@ import time
 
 class SiteCadmus:
     def __init__(self) -> None:
+        """[Instancia a classe com as configurações iniciais]
+        """
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--lang=pt-BR')
         chrome_options.add_argument('disable-infobars')
@@ -15,10 +17,18 @@ class SiteCadmus:
             options=chrome_options)
 
     def acessar_vagas(self) -> None:
+        """[Abre o navegador de vagas da cadmus]
+        """
         self.driver.get('https://cadmus.com.br/vagas-tecnologia/')
         time.sleep(5)
 
     def pegar_vagas(self) -> dict:
+        """[Essa função é responsável por buscar os elemetos na página]
+
+        Returns:
+            dict: [retorna um dicionário]
+        """
+
         vagas = self.driver.find_elements(By.XPATH, '//div[@class="box"]')
         time.sleep(2)
 
@@ -42,6 +52,14 @@ class SiteCadmus:
         return dados_vagas
 
     def pegar_descricao_vagas(self, dados_vagas: dict) -> dict:
+        """[Função responsável por pegar as descrições das vagas]
+
+        Args:
+            dados_vagas (dict): [dicicionário das vagas]
+
+        Returns:
+            dict: [retorna o dicionário atualizado com as descrições]
+        """
         for vaga in dados_vagas:
             self.driver.execute_script("window.scrollTo(0,1000);")
             time.sleep(1)
